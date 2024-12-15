@@ -35,12 +35,38 @@ The API responds with appropriate error messages and status codes:
 - MongoDB Setup:
 
   - Ensure you have a MongoDB server running locally or accessible remotely.
-  - The server’s URI should be configured in db/db.connect.js as shown above.
+  - The server’s URI should be configured in db/db.connect.js.
+
+        const mongoose = require('mongoose');
+
+        const connectDB = async () => {
+          try {
+            await mongoose.connect(process.env.MONGO_URI, {
+              useNewUrlParser: true,
+              useUnifiedTopology: true,
+            });
+            console.log('MongoDB connected successfully');
+          } catch (error) {
+            console.error('MongoDB connection error:', error);
+            process.exit(1);
+          }
+        };
+        module.exports = connectDB;
 
 - Adding Data:
 
   - Use the provided API endpoints (/users for multiple entries, /user for a single entry) to send data to the MongoDB database.
   - Make sure to structure your requests correctly to include all necessary fields as per your user model schema.
+
+  **Example request body**
+
+      {
+      "first_name": string,
+      "last_name": string,
+      "profileUrl": string,
+      "city": string,
+      "contact_number": string
+      }
 
 ## Contact
 
